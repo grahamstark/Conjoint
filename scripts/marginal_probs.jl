@@ -113,6 +113,7 @@ function find_range( feature :: AbstractString, n :: Number )
         end
     end
     println(level1, level2)
+    println( MPROBS[(MPROBS.feature .== "Poverty"),:level][1])
     v1 = MPROBS[(MPROBS.level .== level1).&(MPROBS.feature .== feature ), :estimate][1] * og.d1
     v2 = MPROBS[(MPROBS.level .== level2).&(MPROBS.feature .== feature ), :estimate][1] * og.d2
     return v1+v2
@@ -140,7 +141,7 @@ end
     inequality = zero(T)
 end
 
-function conjoint_total( factors :: Factors{T} ) :: T where T <: AbstractFloat
+function calc_conjoint_total( factors :: Factors{T} ) :: T where T <: AbstractFloat
     # ±
     # TODO error bars 
     lev = MPROBS[MPROBS.level .== factors.level,:estimate][1]
@@ -151,7 +152,7 @@ function conjoint_total( factors :: Factors{T} ) :: T where T <: AbstractFloat
     elig = MPROBS[MPROBS.level .== factors.eligibility, :estimate][1]
     mt = MPROBS[MPROBS.level .== factors.means_testing, :estimate][1]
     cit = MPROBS[MPROBS.level .== factors.citizenship, :estimate][1]
-    pov = find_range( "Poverty", factors.poverty )
     ineq = find_range( "Inequality", factors.inequality )
+    pov = find_range( "Poverty", factors.poverty )
     return (lev+tx+fun+lxp+mh+elig+mt+cit+pov+ineq)/10.0
 end
