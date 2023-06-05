@@ -15,6 +15,7 @@ using
     Mustache, 
     Parameters, 
     Pluto, 
+    PlutoUI,
     ScottishTaxBenefitModel
 
 const MPROBS = CSV.File( "data/marginalprobabilities.csv" ) |> DataFrame
