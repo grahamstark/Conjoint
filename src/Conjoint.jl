@@ -331,7 +331,8 @@ function feature_to_radio( feature :: String; selected = nothing, disabled=false
                "" 
             end
         end
-        s *= renderrow( id, level, checked, disabled, feature )
+        r = renderrow( id, level, checked, disabled, feature )
+        s *= "$r"
             # RADIO_TMPL, Dict(["feature"=>feature,"level"=>l,"id"=>id, "disabled"=>disstr, "checked"=>checked]))
         id += 1
     end
