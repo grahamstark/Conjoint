@@ -16,10 +16,22 @@ using
     Parameters, 
     Pluto, 
     PlutoUI,
-    ScottishTaxBenefitModel
 
+    ScottishTaxBenefitModel
+    using ScottishTaxBenefitModel.GeneralTaxComponents
+    using ScottishTaxBenefitModel.STBParameters
+    using ScottishTaxBenefitModel.Runner: do_one_run
+    using ScottishTaxBenefitModel.RunSettings
+    using .Utils
+    using .Monitor: Progress
+    using .ExampleHelpers
+    using .STBOutput: make_poverty_line, summarise_inc_frame, 
+        dump_frames, summarise_frames!, make_gain_lose
+    
 export 
     calc_conjoint_total,
+    doonerun,
+    feature_to_radio,
     Factors
 
 const PROJECT_DIR = dirname( Base.current_project() )
@@ -115,14 +127,14 @@ end
 
 
 function mental_health()
-
+    # TODO
 end 
 
 function life_expectancy() 
-
+    # TODO
 end
 
-@with_kw mutable struct  Factors{T <: AbstractFloat }
+@with_kw mutable struct Factors{T <: AbstractFloat }
     level = "Child - £0; Adult - £63; Pensioner - £190"
     tax = "Basic rate - 20%; Higher rate - 40%; Additional rate - 45%"
     funding= "Removal of income tax-free personal allowance"
@@ -149,6 +161,174 @@ function calc_conjoint_total( factors :: Factors{T} ) :: T where T <: AbstractFl
     ineq = find_range( "Inequality", factors.inequality )
     pov = find_range( "Poverty", factors.poverty )
     return (lev+tx+fun+lxp+mh+elig+mt+cit+pov+ineq)/10.0
+end
+
+function load_system(; scotland = false )::TaxBenefitSystem
+    sys = load_file( joinpath( Definitions.MODEL_PARAMS_DIR, "sys_2022-23.jl"))
+    if ! scotland 
+        load_file!( sys, joinpath( Definitions.MODEL_PARAMS_DIR, "sys_2022-23_ruk.jl"))
+    end
+    weeklyise!( sys )
+    return sys
+end
+
+
+function map_features!( tb :: TaxBenefitSystem, facs :: Factors )
+    tb.ubi.abolished = false
+    if facs.level ==
+        "Child - £0; Adult - £63; Pensioner - £190"
+        tb.ubi.adult_amount = 63
+        tb.ubi.child_amount = 0
+        tb.ubi.universal_pension = 190
+    elseif facs.level ==
+        "Child - £41; Adult - £63; Pensioner - £190"
+        tb.ubi.adult_amount = 63
+        tb.ubi.child_amount = 41
+        tb.ubi.universal_pension = 190
+    elseif facs.level ==
+        "Child - £0; Adult - £145; Pensioner - £190"
+        tb.ubi.adult_amount = 145
+        tb.ubi.child_amount = 0
+        tb.ubi.universal_pension = 190
+    elseif facs.level ==
+        "Child - £41; Adult - £145; Pensioner - £190"
+        tb.ubi.adult_amount = 145
+        tb.ubi.child_amount = 41
+        tb.ubi.universal_pension = 190
+    elseif facs.level ==
+        "Child - £63; Adult - £145; Pensioner - £190"
+        tb.ubi.adult_amount = 145
+        tb.ubi.child_amount = 63
+        tb.ubi.universal_pension = 190
+    elseif facs.level ==
+        "Child - £63; Adult - £190; Pensioner - £190"
+        tb.ubi.adult_amount = 190
+        tb.ubi.child_amount = 63
+        tb.ubi.universal_pension = 190
+    elseif facs.level ==
+        "Child - £95; Adult - £190; Pensioner - £230"
+        tb.ubi.adult_amount = 190
+        tb.ubi.child_amount = 95
+        tb.ubi.universal_pension = 230
+    elseif facs.level ==
+        "Child - £41; Adult - £230; Pensioner - £230"
+        tb.ubi.adult_amount = 230
+        tb.ubi.child_amount = 41
+        tb.ubi.universal_pension = 230
+    elseif facs.level ==
+        "Child - £95; Adult - £230; Pensioner - £230"
+        tb.ubi.adult_amount = 230
+        tb.ubi.child_amount = 95
+        tb.ubi.universal_pension = 230
+    else
+        @assert false "non mapped facs.level: $(facs.level)"
+    end 
+
+    if facs.tax == 
+        "Basic rate - 20%; Higher rate - 40%; Additional rate - 45%"
+        tb.it.non_savings_rates = [0.2, 0.4, 0.45 ]
+    elseif facs.tax == 
+        "Basic rate - 23%; Higher rate - 43%; Additional rate - 48%"
+        tb.it.non_savings_rates = [0.23, 0.43, 0.48 ]    
+    elseif facs.tax == 
+        "Basic rate - 30%; Higher rate - 50%; Additional rate - 60%"
+        tb.it.non_savings_rates = [0.3, 0.5, 0.6 ]    
+    elseif facs.tax == 
+        "Basic rate - 40%; Higher rate - 60%; Additional rate - 70%"
+        tb.it.non_savings_rates = [0.4, 0.6, 0.7 ]    
+    elseif facs.tax == 
+        "Basic rate - 48%; Higher rate - 68%; Additional rate - 78%"
+        tb.it.non_savings_rates = [0.48, 0.68, 0.78 ]    
+    elseif facs.tax == 
+        "Basic rate - 50%; Higher rate - 70%; Additional rate - 80%"
+        tb.it.non_savings_rates = [0.5, 0.7, 0.8 ]    
+    elseif facs.tax == 
+        "Basic rate - 65%; Higher rate - 85%; Additional rate - 95%"
+        tb.it.non_savings_rates = [0.65, 0.85, 0.95 ]    
+    else
+        @assert false "non mapped facs.tax: $(facs.tax)"
+    end
+
+    if facs.funding ==
+        "Removal of income tax-free personal allowance"
+        tb.it.personal_allowance = 0.0
+    elseif facs.funding in [
+        "Increased government borrowing",
+        "Corporation tax increase",
+        "Tax for businesses based on carbon emissions",
+        "Tax for individuals based on carbon emissions",
+        "Tax on wealth",
+        "VAT increase"]
+        # TODO nothing yet
+    else
+        @assert false "non mapped facs.funding: $(facs.funding)"
+    end
+
+    ## TODO facs.eligibility
+    ## TODO facs.citizenship
+    ## TODO facs.means_testing 
+
+    make_ubi_pre_adjustments!( tb )
+end
+
+function doonerun( facs :: Factors )
+    settings = Settings()
+    obs = Observable( Progress(settings.uuid,"",0,0,0,0))
+    settings.do_marginal_rates = false
+    sys1 = load_system( scotland=false ) 
+    sys2 = deepcopy(sys1)
+    map_features!( sys2, facs )
+    sys = [sys1,sys2]
+    ## , get_system( year=2019, scotland=true )]
+    results = do_one_run( settings, sys, obs )
+    settings.poverty_line = make_poverty_line( results.hh[1], settings )
+    summaries = summarise_frames!( results, settings ) 
+
+    facs.poverty = summaries.poverty[2].headcount - summaries.poverty[1].headcount
+    facs.inequality = summaries.inequality[2].gini - summaries.inequality[1].gini
+    pop = calc_conjoint_total( facs )
+    return( ; pop, summaries, facs )
+end
+
+# const
+RADIO_TMPL = mt"""
+<input class='form-check-input' {{checked}} type='radio' name='{{feature}}' id='{{feature}}-{{id}}' value='{{level}}' {{disabled}} />
+<label class="form-check-label" for='{{feature}}'>
+  {{level}}
+</label>
+
+"""
+RADIO_TMPL = @htl"""
+<input class='form-check-input' {{checked}} type='radio' name='{{feature}}' id='{{feature}}-{{id}}' value='{{level}}' {{disabled}} />
+<label class="form-check-label" for='{{feature}}'>
+  {{level}}
+</label>
+
+"""
+
+function feature_to_radio( feature :: String; selected = nothing, disabled=false ) :: String
+    s = ""
+    levels = MPROBS[MPROBS.feature.== feature ,:level]
+    id = 1
+    disstr = disabled ? "disabled='disabled'" : ""
+    for l in levels 
+        checked = if isnothing( selected )
+            if id == 1
+                "checked='checked'"
+            else
+                ""
+            end
+        else
+            if l == selected 
+                "checked='checked'"
+            else
+               "" 
+            end
+        end
+        s *= render( RADIO_TMPL, Dict(["feature"=>feature,"level"=>l,"id"=>id, "disabled"=>disstr, "checked"=>checked]))
+        id += 1
+    end
+    return s
 end
 
 end # module

@@ -2,7 +2,7 @@
 
 julia_version = "1.9.0"
 manifest_format = "2.0"
-project_hash = "9d66a168e26273ee49e6acd514df484c74f4f2ad"
+project_hash = "1c9a0c011edfb21f30ead2995a220419660b5c11"
 
 [[deps.ADTypes]]
 git-tree-sha1 = "dcfdf328328f2645531c4ddebf841228aef74130"
@@ -882,9 +882,9 @@ uuid = "f1662d9f-8043-43de-a69a-05efc1cc6ff4"
 version = "0.1.1"
 
 [[deps.IterTools]]
-git-tree-sha1 = "fa6287a4469f5e048d763df38279ee729fbd44e5"
+git-tree-sha1 = "4ced6667f9974fc5c5943fa5e2ef1ca43ea9e450"
 uuid = "c8e1da08-722c-5040-9ed9-7db0dc04731e"
-version = "1.4.0"
+version = "1.8.0"
 
 [[deps.IterableTables]]
 deps = ["DataValues", "IteratorInterfaceExtensions", "Requires", "TableTraits", "TableTraitsUtils"]
@@ -935,9 +935,9 @@ version = "0.3.4"
 
 [[deps.JSON3]]
 deps = ["Dates", "Mmap", "Parsers", "PrecompileTools", "StructTypes", "UUIDs"]
-git-tree-sha1 = "1b060125c7a740915da46cb6dcc6817e3bf33c4a"
+git-tree-sha1 = "5b62d93f2582b09e469b3099d839c2d2ebf5066d"
 uuid = "0f8b85d8-7281-11e9-16c2-39a750bddbf1"
-version = "1.13.0"
+version = "1.13.1"
 
 [[deps.JpegTurbo]]
 deps = ["CEnum", "FileIO", "ImageCore", "JpegTurbo_jll", "TOML"]
@@ -1760,7 +1760,7 @@ version = "0.2.11"
 
 [[deps.ScottishTaxBenefitModel]]
 deps = ["ArgCheck", "BenchmarkTools", "BudgetConstraints", "CSV", "CairoMakie", "Colors", "DataFrames", "Dates", "Formatting", "FromFile", "GLM", "HttpCommon", "Infiltrator", "IterableTables", "IteratorInterfaceExtensions", "JLD2", "JSON3", "Logging", "LoggingExtras", "MarkdownTables", "Observables", "Parameters", "Pluto", "PovertyAndInequalityMeasures", "PrettyTables", "Printf", "Random", "Reexport", "RegressionTables", "Roots", "StatFiles", "StaticArrays", "Statistics", "StatsBase", "StatsModels", "StructTypes", "SurveyDataWeighting", "TableTraits", "Tables", "TimeSeries", "UUIDs"]
-git-tree-sha1 = "1c17118917c31dd247cedefb08e10796b298767b"
+git-tree-sha1 = "3205e1938ab26a68e38eec25a8adf79e9cc58f69"
 repo-rev = "master"
 repo-url = "https://github.com/grahamstark/ScottishTaxBenefitModel.jl/"
 uuid = "a734f2ee-4b7f-478f-84ca-797081d39f6e"
@@ -2143,9 +2143,9 @@ version = "1.4.2"
 
 [[deps.WebIO]]
 deps = ["AssetRegistry", "Base64", "Distributed", "FunctionalCollections", "JSON", "Logging", "Observables", "Pkg", "Random", "Requires", "Sockets", "UUIDs", "WebSockets", "Widgets"]
-git-tree-sha1 = "976d0738247f155d0dcd77607edea644f069e1e9"
+git-tree-sha1 = "0eef0765186f7452e52236fa42ca8c9b3c11c6e3"
 uuid = "0f1e0344-ec1d-5b48-a673-e5cf874b6c29"
-version = "0.8.20"
+version = "0.8.21"
 
 [[deps.WebSockets]]
 deps = ["Base64", "Dates", "HTTP", "Logging", "Sockets"]
