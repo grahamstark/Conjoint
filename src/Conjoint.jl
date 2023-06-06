@@ -11,6 +11,7 @@ using
     CairoMakie, 
     CSV, 
     DataFrames, 
+    HypertextLiteral,
     Measurements, 
     Mustache, 
     Parameters, 
@@ -291,41 +292,47 @@ function doonerun( facs :: Factors )
 end
 
 # const
-RADIO_TMPL = mt"""
+RADIO_TMPL_M = mt"""
 <input class='form-check-input' {{checked}} type='radio' name='{{feature}}' id='{{feature}}-{{id}}' value='{{level}}' {{disabled}} />
 <label class="form-check-label" for='{{feature}}'>
   {{level}}
 </label>
 
 """
-RADIO_TMPL = @htl"""
-<input class='form-check-input' {{checked}} type='radio' name='{{feature}}' id='{{feature}}-{{id}}' value='{{level}}' {{disabled}} />
-<label class="form-check-label" for='{{feature}}'>
-  {{level}}
-</label>
 
-"""
+
+function renderrow( id, level, checked, disabled, feature )
+    fid = "$(id)-$(feature)"
+    @htl("""
+    <input class='form-check-input' $(checked) type='radio' name='$(feature)' id='$(fid)' value='$(level)'  />
+    <label class='form-check-label' for='$(feature)'>
+      $level
+    </label>
+    
+    """ )
+end
 
 function feature_to_radio( feature :: String; selected = nothing, disabled=false ) :: String
     s = ""
     levels = MPROBS[MPROBS.feature.== feature ,:level]
     id = 1
-    disstr = disabled ? "disabled='disabled'" : ""
-    for l in levels 
+    disstr = disabled ? "disabled" : ""
+    for level in levels 
         checked = if isnothing( selected )
             if id == 1
-                "checked='checked'"
+                "checked"
             else
                 ""
             end
         else
             if l == selected 
-                "checked='checked'"
+                "checked"
             else
                "" 
             end
         end
-        s *= render( RADIO_TMPL, Dict(["feature"=>feature,"level"=>l,"id"=>id, "disabled"=>disstr, "checked"=>checked]))
+        s *= renderrow( id, level, checked, disabled, feature )
+            # RADIO_TMPL, Dict(["feature"=>feature,"level"=>l,"id"=>id, "disabled"=>disstr, "checked"=>checked]))
         id += 1
     end
     return s
