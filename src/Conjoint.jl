@@ -15,8 +15,6 @@ using
     Measurements, 
     Mustache, 
     Parameters, 
-    Pluto, 
-    PlutoUI,
     ScottishTaxBenefitModel
 
 using ScottishTaxBenefitModel.GeneralTaxComponents
