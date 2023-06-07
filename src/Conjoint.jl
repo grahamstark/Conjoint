@@ -17,17 +17,18 @@ using
     Parameters, 
     Pluto, 
     PlutoUI,
-
     ScottishTaxBenefitModel
-    using ScottishTaxBenefitModel.GeneralTaxComponents
-    using ScottishTaxBenefitModel.STBParameters
-    using ScottishTaxBenefitModel.Runner: do_one_run
-    using ScottishTaxBenefitModel.RunSettings
-    using .Utils
-    using .Monitor: Progress
-    using .ExampleHelpers
-    using .STBOutput: make_poverty_line, summarise_inc_frame, 
-        dump_frames, summarise_frames!, make_gain_lose
+
+using ScottishTaxBenefitModel.GeneralTaxComponents
+using ScottishTaxBenefitModel.STBParameters
+using ScottishTaxBenefitModel.Runner: do_one_run
+using ScottishTaxBenefitModel.RunSettings
+using ScottishTaxBenefitModel.Definitions
+using .Utils
+using .Monitor: Progress
+using .ExampleHelpers
+using .STBOutput: make_poverty_line, summarise_inc_frame, 
+    dump_frames, summarise_frames!, make_gain_lose
     
 export 
     calc_conjoint_total,
@@ -41,11 +42,14 @@ const CHANGE_BREAKS = [-0.5,-0.25,-0.1,-0.05,0,0.05,0.10,0.25,0.5]
 const LIFE_BREAKS = [-5,-3,-1,0,1,3,5]
 
 
-@enum Diff neg zer pos oor
+@enum Diff neg zer pos out_of_range
 
+"""
+for interpolating a gap
+"""
 function ogap( v, n1, n2 )
     if !(n1 <= v <= n2)
-        return (vl=oor,d1=-1,d2=-1)
+        return (vl=out_of_range,d1=-1,d2=-1)
     end
     @assert n1 <= n2
     if v ≈ 0
@@ -62,7 +66,7 @@ function ogap( v, n1, n2 )
         pos
     end
     @assert d1+d2 ≈ 1
-     ( vl=vl, d1=d1, d2=d2, n1=n1, n2=n2 )
+     (; vl, d1, d2, n1, n2 )
 end
 
 function make_levels( feature::AbstractString, n :: Number ) # :: Vector{F}
@@ -74,7 +78,7 @@ function make_levels( feature::AbstractString, n :: Number ) # :: Vector{F}
     for i in 2:ln
         og = ogap( n, levels[i-1],levels[i])
         # println(og)
-        if og.vl != oor
+        if og.vl != out_of_range
             break;
         end
     end
@@ -86,7 +90,12 @@ const PCT_TMPLS = [mt"Unchanged.", mt"{{pn}} by {{pct}}%." ]
 const CASE_TMPLS = [mt"Same number of cases", mt"{{pct}}% {{pn}} cases" ]
 const LIFE_TMPLS = [mt"0 more or less years on average", mt"{{yrs}} {{pn}} year{{pl}} on average" ]
 
-function find_range( feature :: AbstractString, n :: Number )
+"""
+Find the 2 nearest in the dataframe for the given feature and value `val`
+FIXME Refactor the Fuck out of this.
+TODO add ranges
+"""
+function find_range( feature :: AbstractString, val :: Number )
     tmpls = PCT_TMPLS
     more = "Increased"
     less = "Decreased"
@@ -99,7 +108,7 @@ function find_range( feature :: AbstractString, n :: Number )
         more = "more"
         less = "fewer"
     end
-    og = make_levels( feature, n )
+    og = make_levels( feature, val )
     level1 = level2 = ""
     if og.vl == zero
         level1 = level2 = render( tmpls[1])
@@ -113,26 +122,39 @@ function find_range( feature :: AbstractString, n :: Number )
             pl = abs( og.n2 ) > 1 ? "s" : ""
             level2 = render( tmpls[2], Dict(["yrs"=>s2, "pl"=>pl, "pn"=>ml ] ))
         else
-            s1 = "$(Int(abs(og.n1)*100))"
-            s2 = "$(Int(abs(og.n2)*100))"
-            level1 = render( tmpls[2], Dict(["pn"=>ml, "pct"=>s1] ))
-            level2 = render( tmpls[2], Dict(["pn"=>ml, "pct"=>s2] ))
+            if og.n1 == 0
+                level1 = render( tmpls[1])
+            else
+                s1 = "$(Int(abs(og.n1)*100))"
+                level1 = render( tmpls[2], Dict(["pn"=>ml, "pct"=>s1] ))
+            end
+            if og.n2 == 0
+                level2 = render( tmpls[1])
+            else
+                s2 = "$(Int(abs(og.n2)*100))"
+                level2 = render( tmpls[2], Dict(["pn"=>ml, "pct"=>s2] ))
+            end
         end
     end
-    # println(level1, level2)
+    # println("level1='$level1' level2='$level2' feature='$feature'")
     # println( MPROBS[(MPROBS.feature .== "Poverty"),:level][1])
     v1 = MPROBS[(MPROBS.level .== level1).&(MPROBS.feature .== feature ), :estimate][1] * og.d1
     v2 = MPROBS[(MPROBS.level .== level2).&(MPROBS.feature .== feature ), :estimate][1] * og.d2
     return v1+v2
 end
 
-
-function mental_health()
-    # TODO
+"""
+ TODO
+"""
+function infer_mental_health()
+    
 end 
 
-function life_expectancy() 
-    # TODO
+"""
+ TODO
+"""
+function infer_life_expectancy() 
+    
 end
 
 @with_kw mutable struct Factors{T <: AbstractFloat }
@@ -159,6 +181,7 @@ function calc_conjoint_total( factors :: Factors{T} ) :: T where T <: AbstractFl
     elig = MPROBS[MPROBS.level .== factors.eligibility, :estimate][1]
     mt = MPROBS[MPROBS.level .== factors.means_testing, :estimate][1]
     cit = MPROBS[MPROBS.level .== factors.citizenship, :estimate][1]
+    println( "factors.inequality = $(factors.inequality)")
     ineq = find_range( "Inequality", factors.inequality )
     pov = find_range( "Poverty", factors.poverty )
     return (lev+tx+fun+lxp+mh+elig+mt+cit+pov+ineq)/10.0
@@ -176,6 +199,8 @@ end
 
 function map_features!( tb :: TaxBenefitSystem, facs :: Factors )
     tb.ubi.abolished = false
+    tb.ubi.mt_bens_treatment = ub_as_is # ub_keep_housing
+
     if facs.level ==
         "Child - £0; Adult - £63; Pensioner - £190"
         tb.ubi.adult_amount = 63
@@ -302,41 +327,34 @@ RADIO_TMPL_M = mt"""
 
 
 function renderrow( id, level, checked, disabled, feature )
-    fid = "$(id)-$(feature)"
+    fid = "$(feature)-$(id)"
     @htl("""
-    <input class='form-check-input' $(checked) type='radio' name='$(feature)' id='$(fid)' value='$(level)'  />
-    <label class='form-check-label' for='$(feature)'>
-      $level
-    </label>
-    
+    <div class="form-check">
+        <input class='form-check-input' checked=$(checked) disabled=$(disabled) type='radio' name='$(feature)' id='$(fid)' value='$(level)'  />
+        <label class='form-check-label' for='$(fid)'>$level</label>
+    </div>
     """ )
 end
 
-function feature_to_radio( feature :: String; selected = nothing, disabled=false ) :: String
+function feature_to_radio( feature :: String; selected = nothing, disabled=false ) :: HypertextLiteral.Result
     s = ""
     levels = MPROBS[MPROBS.feature.== feature ,:level]
     id = 1
-    disstr = disabled ? "disabled" : ""
-    for level in levels 
-        checked = if isnothing( selected )
-            if id == 1
-                "checked"
-            else
-                ""
-            end
-        else
-            if l == selected 
-                "checked"
-            else
-               "" 
-            end
+    params = []   
+    for level in levels
+        checked = false 
+        if isnothing( selected ) && id == 1
+            checked = true
+        elseif level == selected 
+            checked = true
         end
-        r = renderrow( id, level, checked, disabled, feature )
-        s *= "$r"
-            # RADIO_TMPL, Dict(["feature"=>feature,"level"=>l,"id"=>id, "disabled"=>disstr, "checked"=>checked]))
+        push!( params, ( id, level, checked, disabled, feature ) )
         id += 1
     end
-    return s
+    # see: https://github.com/JuliaPluto/HypertextLiteral.jl
+    return @htl("""
+        $((renderrow(b...) for b in params))
+    """)
 end
 
 end # module
