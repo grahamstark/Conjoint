@@ -2,7 +2,7 @@
 
 julia_version = "1.9.0"
 manifest_format = "2.0"
-project_hash = "1c9a0c011edfb21f30ead2995a220419660b5c11"
+project_hash = "06b532cbd7acb793ea510d99b0e86100dde8563b"
 
 [[deps.ADTypes]]
 git-tree-sha1 = "dcfdf328328f2645531c4ddebf841228aef74130"
@@ -350,39 +350,6 @@ version = "0.3.1"
 git-tree-sha1 = "249fe38abf76d48563e2f4556bebd215aa317e15"
 uuid = "a8cc5b0e-0ffa-5ad4-8c14-923d3ee1735f"
 version = "4.1.1"
-
-[[deps.Dash]]
-deps = ["Base64", "CodecZlib", "DashBase", "DashCoreComponents", "DashHtmlComponents", "DashTable", "DataStructures", "HTTP", "JSON", "JSON3", "MD5", "Pkg", "PlotlyBase", "Requires", "Sockets", "Test", "UUIDs", "YAML"]
-git-tree-sha1 = "37c42f2a72a38c8141f1b39def8cfcc5b48bacea"
-uuid = "1b08a953-4be3-4667-9a23-3db579824955"
-version = "1.2.1"
-
-[[deps.DashBase]]
-deps = ["JSON2", "Test"]
-git-tree-sha1 = "fc7632ba6b4f1c085620870142114f428f51eff0"
-uuid = "03207cf0-e2b3-4b91-9ca8-690cf0fb507e"
-version = "0.1.0"
-
-[[deps.DashBootstrapComponents]]
-deps = ["Dash"]
-git-tree-sha1 = "d423ae74d117320adb93a28f2c325a1664f09e0a"
-uuid = "1b08a953-4be3-4667-9a23-fa6d05876a1e"
-version = "1.4.1"
-
-[[deps.DashCoreComponents]]
-git-tree-sha1 = "f50f65803f79f4d131a1dad8843fcd51c7c71f7d"
-uuid = "1b08a953-4be3-4667-9a23-9da06441d987"
-version = "2.0.0"
-
-[[deps.DashHtmlComponents]]
-git-tree-sha1 = "972f71ee6c3c22841cdc6a44eca6117fb843c86c"
-uuid = "1b08a953-4be3-4667-9a23-24100242a84a"
-version = "2.0.0"
-
-[[deps.DashTable]]
-git-tree-sha1 = "923491df78fc9b36191162f0f0f4b0c38467a5db"
-uuid = "1b08a953-4be3-4667-9a23-f0e2ba4deb9a"
-version = "5.0.0"
 
 [[deps.DataAPI]]
 git-tree-sha1 = "8da84edb865b0b5b0100c0666a9bc9a0b71c553c"
@@ -927,12 +894,6 @@ git-tree-sha1 = "31e996f0a15c7b280ba9f76636b3ff9e2ae58c9a"
 uuid = "682c06a0-de6a-54ab-a142-c8b1cf79cde6"
 version = "0.21.4"
 
-[[deps.JSON2]]
-deps = ["Dates", "Parsers", "Test"]
-git-tree-sha1 = "dcc3c2d9bdc036677a031ea97b76925983ca1f18"
-uuid = "2535ab7d-5cd8-5a07-80ac-9b1792aadce3"
-version = "0.3.4"
-
 [[deps.JSON3]]
 deps = ["Dates", "Mmap", "Parsers", "PrecompileTools", "StructTypes", "UUIDs"]
 git-tree-sha1 = "5b62d93f2582b09e469b3099d839c2d2ebf5066d"
@@ -1139,12 +1100,6 @@ deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg"]
 git-tree-sha1 = "5d494bc6e85c4c9b626ee0cab05daa4085486ab1"
 uuid = "5ced341a-0733-55b8-9ab6-a4889d929147"
 version = "1.9.3+0"
-
-[[deps.MD5]]
-deps = ["Random", "SHA"]
-git-tree-sha1 = "eeffe42284464c35a08026d23aa948421acf8923"
-uuid = "6ac74813-4b46-53a4-afec-0b5dc9d7885c"
-version = "0.2.1"
 
 [[deps.MIMEs]]
 git-tree-sha1 = "65f28ad4b594aebe22157d6fac869786a255b7eb"
@@ -1949,12 +1904,6 @@ git-tree-sha1 = "5ffcee1813efc849f188dce82ca1553bd5f3a476"
 uuid = "7792a7ef-975c-4747-a70f-980b88e8d1da"
 version = "0.4.14"
 
-[[deps.StringEncodings]]
-deps = ["Libiconv_jll"]
-git-tree-sha1 = "33c0da881af3248dafefb939a21694b97cfece76"
-uuid = "69024149-9ee7-55f6-a4c4-859efe599b68"
-version = "0.3.6"
-
 [[deps.StringManipulation]]
 git-tree-sha1 = "46da2434b41f41ac3594ee9816ce5541c6096123"
 uuid = "892a3eda-7b42-436c-8928-eab12a02cf0e"
@@ -2229,12 +2178,6 @@ deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg"]
 git-tree-sha1 = "79c31e7844f6ecf779705fbc12146eb190b7d845"
 uuid = "c5fb5394-a638-5e4d-96e5-b29de1b5cf10"
 version = "1.4.0+3"
-
-[[deps.YAML]]
-deps = ["Base64", "Dates", "Printf", "StringEncodings"]
-git-tree-sha1 = "dbc7f1c0012a69486af79c8bcdb31be820670ba2"
-uuid = "ddb6d928-2868-570f-bddf-ab3f9cf99eb6"
-version = "0.4.8"
 
 [[deps.Zlib_jll]]
 deps = ["Libdl"]

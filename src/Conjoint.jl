@@ -316,16 +316,6 @@ function doonerun( facs :: Factors )
     return( ; pop, summaries, facs )
 end
 
-# const
-RADIO_TMPL_M = mt"""
-<input class='form-check-input' {{checked}} type='radio' name='{{feature}}' id='{{feature}}-{{id}}' value='{{level}}' {{disabled}} />
-<label class="form-check-label" for='{{feature}}'>
-  {{level}}
-</label>
-
-"""
-
-
 function renderrow( id, level, checked, disabled, feature )
     fid = "$(feature)-$(id)"
     @htl("""
@@ -336,7 +326,7 @@ function renderrow( id, level, checked, disabled, feature )
     """ )
 end
 
-function feature_to_radio( feature :: String; selected = nothing, disabled=false ) :: HypertextLiteral.Result
+function feature_to_radio( feature :: AbstractString; selected = nothing, disabled=false ) :: HypertextLiteral.Result
     s = ""
     levels = MPROBS[MPROBS.feature.== feature ,:level]
     id = 1
