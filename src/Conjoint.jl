@@ -34,7 +34,7 @@ export
     feature_to_radio,
     Factors
 
-const PROJECT_DIR = dirname( Base.current_project() )
+const PROJECT_DIR = joinpath(dirname(pathof(Conjoint)),".." ) 
 const MPROBS = CSV.File( "$PROJECT_DIR/data/marginalprobabilities.csv" ) |> DataFrame
 const CHANGE_BREAKS = [-0.5,-0.25,-0.1,-0.05,0,0.05,0.10,0.25,0.5]
 const LIFE_BREAKS = [-5,-3,-1,0,1,3,5]
