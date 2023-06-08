@@ -325,7 +325,6 @@ function renderrow( id, level, checked, disabled, feature )
 end
 
 function feature_to_radio( feature :: AbstractString; selected = nothing, disabled=false ) :: HypertextLiteral.Result
-    s = ""
     levels = MPROBS[MPROBS.feature.== feature ,:level]
     id = 1
     params = []   
