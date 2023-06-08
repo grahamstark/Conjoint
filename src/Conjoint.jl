@@ -8,6 +8,7 @@ module Conjoint
 # These can just be averaged (nb not summed) to give you the probability of choice of any bundle of different attributes. 
 
 using 
+
     CairoMakie, 
     CSV, 
     DataFrames, 
