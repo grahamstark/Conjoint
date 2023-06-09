@@ -296,10 +296,16 @@ function map_features!( tb :: TaxBenefitSystem, facs :: Factors )
     make_ubi_pre_adjustments!( tb )
 end
 
-function doonerun( facs :: Factors, obs :: Observable ) 
+function make_default_settings() :: RunSettings
     settings = Settings()
     settings.do_marginal_rates = false
     settings.requested_threads = 4
+    return settings
+end
+
+const DEFAULT_SETTINGS = make_default_settings()
+
+function doonerun( facs :: Factors, obs :: Observable; settings = DEFAULT_SETTINGS ) 
     sys1 = load_system( scotland=false ) 
     sys2 = deepcopy(sys1)
     map_features!( sys2, facs )
@@ -308,11 +314,10 @@ function doonerun( facs :: Factors, obs :: Observable )
     results = do_one_run( settings, sys, obs )
     settings.poverty_line = make_poverty_line( results.hh[1], settings )
     summary = summarise_frames!( results, settings ) 
-
     facs.poverty = summary.poverty[2].headcount - summary.poverty[1].headcount
     facs.inequality = summary.inequality[2].gini - summary.inequality[1].gini
     popularity = calc_conjoint_total( facs )
-    return( ; popularity, summary, facs, sys2 )
+    return( ; popularity, summary, facs, sys1, sys2, settings )
 end
 
 function renderrow( id, level, checked, disabled, feature )
