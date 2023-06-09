@@ -9,8 +9,8 @@ module Conjoint
 
 using 
 
-    CairoMakie, 
     CSV, 
+    Observables,
     DataFrames, 
     HypertextLiteral,
     Measurements, 
