@@ -296,7 +296,7 @@ function map_features!( tb :: TaxBenefitSystem, facs :: Factors )
     make_ubi_pre_adjustments!( tb )
 end
 
-function make_default_settings() :: RunSettings
+function make_default_settings() :: Settings
     settings = Settings()
     settings.do_marginal_rates = false
     settings.requested_threads = 4
