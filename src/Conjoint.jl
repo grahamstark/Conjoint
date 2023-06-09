@@ -306,12 +306,12 @@ function doonerun( facs :: Factors, obs :: Observable )
     ## , get_system( year=2019, scotland=true )]
     results = do_one_run( settings, sys, obs )
     settings.poverty_line = make_poverty_line( results.hh[1], settings )
-    summaries = summarise_frames!( results, settings ) 
+    summary = summarise_frames!( results, settings ) 
 
-    facs.poverty = summaries.poverty[2].headcount - summaries.poverty[1].headcount
-    facs.inequality = summaries.inequality[2].gini - summaries.inequality[1].gini
+    facs.poverty = summary.poverty[2].headcount - summary.poverty[1].headcount
+    facs.inequality = summary.inequality[2].gini - summary.inequality[1].gini
     popularity = calc_conjoint_total( facs )
-    return( ; popularity, summaries, facs )
+    return( ; popularity, summary, facs, sys2 )
 end
 
 function renderrow( id, level, checked, disabled, feature )
