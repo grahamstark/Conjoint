@@ -299,6 +299,7 @@ end
 function doonerun( facs :: Factors, obs :: Observable ) 
     settings = Settings()
     settings.do_marginal_rates = false
+    settings.requested_threads = 4
     sys1 = load_system( scotland=false ) 
     sys2 = deepcopy(sys1)
     map_features!( sys2, facs )
