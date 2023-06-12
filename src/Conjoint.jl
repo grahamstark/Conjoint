@@ -319,7 +319,7 @@ function doonerun!( facs :: Factors, obs :: Observable; settings = DEFAULT_SETTI
     facs.poverty = summary.poverty[2].headcount - summary.poverty[1].headcount
     facs.inequality = summary.inequality[2].gini - summary.inequality[1].gini
     popularity = calc_conjoint_total( facs )
-    default_popularity = calc_conjoint_total( Factors() )
+    default_popularity = calc_conjoint_total( Factors{Float64}() )
     return( ; popularity, default_popularity, summary, facs, sys1, sys2, settings )
 end
 
