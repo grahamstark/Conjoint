@@ -31,7 +31,7 @@ using .STBOutput: make_poverty_line, summarise_inc_frame,
     
 export 
     calc_conjoint_total,
-    doonerun,
+    doonerun!,
     feature_to_radio,
     Factors
 
@@ -305,7 +305,7 @@ end
 
 const DEFAULT_SETTINGS = make_default_settings()
 
-function doonerun( facs :: Factors, obs :: Observable; settings = DEFAULT_SETTINGS ) 
+function doonerun!( facs :: Factors, obs :: Observable; settings = DEFAULT_SETTINGS ) 
     sys1 = load_system( scotland=false ) 
     sys2 = deepcopy(sys1)
     map_features!( sys2, facs )
