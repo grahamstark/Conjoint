@@ -169,7 +169,7 @@ end
     inequality = zero(T)
 end
 
-function calc_conjoint_total( factors :: Factors{T} ) :: T where T <: AbstractFloat
+function calc_conjoint_total( factors :: Factors{T} ) :: NamedTuple where T <: AbstractFloat
     # ±
     # TODO error bars 
     lev = MPROBS[MPROBS.level .== factors.level,:estimate][1]
@@ -183,7 +183,9 @@ function calc_conjoint_total( factors :: Factors{T} ) :: T where T <: AbstractFl
     println( "factors.inequality = $(factors.inequality)")
     ineq = find_range( "Inequality", factors.inequality )
     pov = find_range( "Poverty", factors.poverty )
-    return (lev+tx+fun+lxp+mh+elig+mt+cit+pov+ineq)/10.0
+    avg = (lev+tx+fun+lxp+mh+elig+mt+cit+pov+ineq)/10.0
+    components = (; lev, tx, fun, lxp, mh, elig, mt, cit, pov, ineq )
+    return (; avg, components )
 end
 
 function load_system(; scotland = false )::TaxBenefitSystem
@@ -317,7 +319,8 @@ function doonerun!( facs :: Factors, obs :: Observable; settings = DEFAULT_SETTI
     facs.poverty = summary.poverty[2].headcount - summary.poverty[1].headcount
     facs.inequality = summary.inequality[2].gini - summary.inequality[1].gini
     popularity = calc_conjoint_total( facs )
-    return( ; popularity, summary, facs, sys1, sys2, settings )
+    default_popularity = calc_conjoint_total( Factors() )
+    return( ; popularity, default_popularity, summary, facs, sys1, sys2, settings )
 end
 
 function renderrow( id, level, checked, disabled, feature )

@@ -7,8 +7,8 @@ using Test
     p1 = calc_conjoint_total(f)
     f.poverty = 0.2 # 20% higher
     p2 = calc_conjoint_total(f)
-    @test p1 > p2
+    @test p1.avg > p2.avg
     f.poverty = -0.2 # 20% higher
     p3 = calc_conjoint_total(f)
-    @test p3 > p1 # less pov better    
+    @test p3.avg > p1.avg # less pov better    
 end
