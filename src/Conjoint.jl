@@ -304,16 +304,16 @@ function map_features!( tb :: TaxBenefitSystem, facs :: Factors )
             @assert false "failed to map |$(facs.eligibility)|"
         end
     
-    if facs.means_test == "People with any or no amount of income are entitled to the full benefit"
+    if facs.means_testing == "People with any or no amount of income are entitled to the full benefit"
         tb.ubi.income_limit = -1.0
-    elseif facs.means_test == "Only those with incomes less than £20k are entitled to the full benefit"
+    elseif facs.means_testing == "Only those with incomes less than £20k are entitled to the full benefit"
         tb.ubi.income_limit = 20_000.0/WEEKS_PER_YEAR
-    elseif facs.means_test == "Only those with incomes less than £50k are entitled to the full benefit"
+    elseif facs.means_testing == "Only those with incomes less than £50k are entitled to the full benefit"
         tb.ubi.income_limit = 50_000.0/WEEKS_PER_YEAR
-    elseif facs.means_test == "form-check-input' type='radio' name='Means.testing' id='Means.testing-4' value='Only those with incomes less than £125k are entitled to the full benefit"
+    elseif facs.means_testing == "form-check-input' type='radio' name='Means.testing' id='Means.testing-4' value='Only those with incomes less than £125k are entitled to the full benefit"
         tb.ubi.income_limit = 125_000.0/WEEKS_PER_YEAR
     else
-        @assert false "failed to map |$(facs.means_test)|"
+        @assert false "failed to map |$(facs.means_testing)|"
     end
     ## TODO facs.citizenship
 
