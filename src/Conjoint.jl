@@ -26,6 +26,7 @@ using ScottishTaxBenefitModel.Definitions
 using .Utils
 using .Monitor: Progress
 using .ExampleHelpers
+using .GeneralTaxComponents: WEEKS_PER_YEAR
 using .STBOutput: make_poverty_line, summarise_inc_frame, 
     dump_frames, summarise_frames!, make_gain_lose
     
@@ -290,10 +291,31 @@ function map_features!( tb :: TaxBenefitSystem, facs :: Factors )
     else
         @assert false "non mapped facs.funding: $(facs.funding)"
     end
-
-    ## TODO facs.eligibility
+    tb.ubi.entitlement = 
+        if facs.eligibility == "People in and out of work are entitled"
+            ub_ent_all
+        elseif facs.eligibility == "Everyone is entitled but people of working age who are not disabled are required to look for work"
+            ub_ent_all_but_non_jobseekers
+        elseif facs.eligibility == "Only people in work are entitled"
+            ub_ent_only_in_work
+        elseif facs.eligibility == "Only people out of work are entitled"
+            ub_ent_only_not_in_work
+        else 
+            @assert false "failed to map |$(facs.eligibility)|"
+        end
+    
+    if facs.means_test == "People with any or no amount of income are entitled to the full benefit"
+        tb.ubi.income_limit = -1.0
+    elseif facs.means_test == "Only those with incomes less than £20k are entitled to the full benefit"
+        tb.ubi.income_limit = 20_000.0/WEEKS_PER_YEAR
+    elseif facs.means_test == "Only those with incomes less than £50k are entitled to the full benefit"
+        tb.ubi.income_limit = 50_000.0/WEEKS_PER_YEAR
+    elseif facs.means_test == "form-check-input' type='radio' name='Means.testing' id='Means.testing-4' value='Only those with incomes less than £125k are entitled to the full benefit"
+        tb.ubi.income_limit = 125_000.0/WEEKS_PER_YEAR
+    else
+        @assert false "failed to map |$(facs.means_test)|"
+    end
     ## TODO facs.citizenship
-    ## TODO facs.means_testing 
 
     make_ubi_pre_adjustments!( tb )
 end
