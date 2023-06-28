@@ -8,7 +8,6 @@ module Conjoint
 # These can just be averaged (nb not summed) to give you the probability of choice of any bundle of different attributes. 
 
 using 
-
     CSV, 
     Observables,
     DataFrames, 
@@ -16,6 +15,7 @@ using
     Measurements, 
     Mustache, 
     Parameters, 
+    StatsBase,
     ScottishTaxBenefitModel
 
 using ScottishTaxBenefitModel.GeneralTaxComponents
@@ -41,7 +41,6 @@ const PROJECT_DIR = joinpath(dirname(pathof(Conjoint)),".." )
 const MPROBS = CSV.File( "$PROJECT_DIR/data/marginalprobabilities.csv" ) |> DataFrame
 const CHANGE_BREAKS = [-0.5,-0.25,-0.1,-0.05,0,0.05,0.10,0.25,0.5]
 const LIFE_BREAKS = [-5,-3,-1,0,1,3,5]
-
 
 @enum Diff neg zer pos out_of_range
 
@@ -178,7 +177,7 @@ function calc_conjoint_total( factors :: Factors{T} ) :: NamedTuple where T <: A
     tx = MPROBS[MPROBS.level .== factors.tax,:estimate][1]
     fun = MPROBS[MPROBS.level .== factors.funding, :estimate][1]
     lxp = find_range( "Life.expectancy", factors.life_expectancy )
-    mh = find_range( "Mental.health", factors.life_expectancy )
+    mh = find_range( "Mental.health", factors.mental_health )
     elig = MPROBS[MPROBS.level .== factors.eligibility, :estimate][1]
     mt = MPROBS[MPROBS.level .== factors.means_testing, :estimate][1]
     cit = MPROBS[MPROBS.level .== factors.citizenship, :estimate][1]
@@ -341,16 +340,24 @@ function doonerun!( facs :: Factors, obs :: Observable; settings = DEFAULT_SETTI
     settings.poverty_line = make_poverty_line( results.hh[1], settings )
     summary = summarise_frames!( results, settings ) 
 
-    outps = create_health_indicator( 
-        results.hh[sysno], 
-        summary.deciles[sysno], 
+    outps_pre = create_health_indicator( 
+        results.hh[1], 
+        summary.deciles[1], 
         settings )
-        
+    outps_post = create_health_indicator( 
+        results.hh[2], 
+        summary.deciles[2], 
+        settings )
+    sf_pre = summarise_sf12( outps_pre, settings )
+    sf_post =    summarise_sf12( outps_post, settings )
+
+    factors.mental_health = 100.0*(sf_post.depression-sf_pre.depression)/sf_pre.depression
+
     facs.poverty = summary.poverty[2].headcount - summary.poverty[1].headcount
     facs.inequality = summary.inequality[2].gini - summary.inequality[1].gini
     popularity = calc_conjoint_total( facs )
     default_popularity = calc_conjoint_total( Factors{Float64}() )
-    return( ; popularity, default_popularity, summary, facs, sys1, sys2, settings )
+    return( ; popularity, default_popularity, summary, facs, sys1, sys2, settings, sf_pre, sf_post )
 end
 
 function renderrow( id, level, checked, disabled, feature )
