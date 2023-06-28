@@ -26,6 +26,7 @@ using ScottishTaxBenefitModel.Definitions
 using .Utils
 using .Monitor: Progress
 using .ExampleHelpers
+using .HealthRegressions
 using .GeneralTaxComponents: WEEKS_PER_YEAR
 using .STBOutput: make_poverty_line, summarise_inc_frame, 
     dump_frames, summarise_frames!, make_gain_lose
@@ -339,6 +340,12 @@ function doonerun!( facs :: Factors, obs :: Observable; settings = DEFAULT_SETTI
     results = do_one_run( settings, sys, obs )
     settings.poverty_line = make_poverty_line( results.hh[1], settings )
     summary = summarise_frames!( results, settings ) 
+
+    outps = create_health_indicator( 
+        results.hh[sysno], 
+        summary.deciles[sysno], 
+        settings )
+        
     facs.poverty = summary.poverty[2].headcount - summary.poverty[1].headcount
     facs.inequality = summary.inequality[2].gini - summary.inequality[1].gini
     popularity = calc_conjoint_total( facs )
