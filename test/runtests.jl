@@ -1,9 +1,6 @@
 using Conjoint
 using Test
 using Observables
-using ScottishTaxBenefitModel
-using .Monitor: Progress
-using .RunSettings
 
 @testset "find_range" begin
     for breakdown in keys(Conjoint.BREAKDOWNS)

@@ -15,9 +15,7 @@ using
     Measurements, 
     Mustache, 
     Parameters, 
-    StatsBase,
-    ScottishTaxBenefitModel
-
+    StatsBase
     
 export 
     calc_conjoint_total,
