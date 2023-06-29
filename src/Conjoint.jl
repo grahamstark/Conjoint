@@ -84,9 +84,8 @@ end
 
 function make_levels( feature::AbstractString, n :: Number ) # :: Vector{F}
     levels = feature == "Life.expectancy" ? LIFE_BREAKS : CHANGE_BREAKS
-    # println(levels)
     ln = size(levels)[1]
-    @assert levels[begin] <= n <= levels[end]
+    @assert levels[begin] <= n <= levels[end] "$n is out-of-range of $(levels[begin]) $(levels[end])"
     og = nothing
     for i in 2:ln
         og = ogap( n, levels[i-1],levels[i])
