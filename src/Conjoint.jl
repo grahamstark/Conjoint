@@ -351,10 +351,10 @@ function doonerun!( facs :: Factors, obs :: Observable; settings = DEFAULT_SETTI
     sf_pre = summarise_sf12( outps_pre, settings )
     sf_post = summarise_sf12( outps_post, settings )
 
-    factors.mental_health = 100.0*(sf_post.depressed-sf_pre.depressed)/sf_pre.depressed
-
+    facs.mental_health = 100.0*(sf_post.depressed-sf_pre.depressed)/sf_pre.depressed
     facs.poverty = summary.poverty[2].headcount - summary.poverty[1].headcount
     facs.inequality = summary.inequality[2].gini - summary.inequality[1].gini
+
     popularity = calc_conjoint_total( facs )
     default_popularity = calc_conjoint_total( Factors{Float64}() )
     return( ; popularity, default_popularity, summary, facs, sys1, sys2, settings, sf_pre, sf_post )
