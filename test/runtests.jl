@@ -45,17 +45,3 @@ end
     end
 end
 
-@testset "test_full_run" begin
-    f = Factors{Float64}()
-    settings = Settings()
-    obs = Observable( Progress(settings.uuid, "",0,0,0,0))
-    completed = 0
-    of = on(obs) do p
-      completed += p.step
-      println( "completed $completed")
-    end  
-    allout = doonerun!( f, obs; settings=settings )
-    println( allout )
-end
-
-
