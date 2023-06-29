@@ -37,12 +37,39 @@ export
     feature_to_radio,
     Factors
 
+const FILES = ["totalmm.csv", "leftrightmm.csv", "agemm.csv", "finances3mm.csv", "gendermm.csv", "labourtorydnvmm.csv"]
+
 const PROJECT_DIR = joinpath(dirname(pathof(Conjoint)),".." ) 
-const MPROBS = CSV.File( "$PROJECT_DIR/data/marginalprobabilities.csv" ) |> DataFrame
+
+function loadprobs() :: DataFrame
+    d = CSV.File("$PROJECT_DIR/data/$(FILES[1])")|>DataFrame
+    for f in 2:length(FILES)
+        fname = "$PROJECT_DIR/data/$(FILES[f])"
+        println( "loading $fname")
+        dd = CSV.File(fname)|>DataFrame
+        d = vcat( d, dd )
+    end
+    d
+end
+
+const MPROBS = loadprobs() 
+
+function createbreakdowns() :: Dict
+    d = Dict()
+    bd = string.(unique( MPROBS.breakdown ))
+    for b in bd
+        bdvalues = string.(unique( MPROBS[MPROBS.breakdown .== b,:BY] ))
+        d[b] = bdvalues
+    end
+    d
+end
+
+const BREAKDOWNS = createbreakdowns()
+
 const CHANGE_BREAKS = [-0.5,-0.25,-0.1,-0.05,0,0.05,0.10,0.25,0.5]
 const LIFE_BREAKS = [-5,-3,-1,0,1,3,5]
 
-@enum Diff neg zer pos out_of_range
+@enum Diff negative zer positive out_of_range # can't use 'zero' 
 
 """
 for interpolating a gap
@@ -59,11 +86,11 @@ function ogap( v, n1, n2 )
     d1 = (v - (n2))/d0
     d2 = (n1 - v)/d0
     vl = if v ≈ 0
-        zero
+        zer
     elseif v < 0
-        neg
+        negative
     else
-        pos
+        positive
     end
     @assert d1+d2 ≈ 1
      (; vl, d1, d2, n1, n2 )
@@ -95,7 +122,7 @@ Find the 2 nearest in the dataframe for the given feature and value `val`
 FIXME Refactor the Fuck out of this.
 TODO add ranges
 """
-function find_range( feature :: AbstractString, val :: Number )
+function find_range( by :: AbstractString, feature :: AbstractString, val :: Number )
     tmpls = PCT_TMPLS
     more = "Increased"
     less = "Decreased"
@@ -113,14 +140,32 @@ function find_range( feature :: AbstractString, val :: Number )
     if og.vl == zero
         level1 = level2 = render( tmpls[1])
     else
-        ml = og.vl == pos ? more : less
+        ml = og.vl == positive ? more : less
         if feature == "Life.expectancy"
-            pl = abs( og.n1 ) > 1 ? "s" : ""
+            pl = ""
+            tmpl = tmpls[2]
+            if abs( og.n1 ) > 1 
+                pl = "s"
+            elseif og.n1 == -1
+                # HORRIBLE
+                ml = "less"
+            elseif og.n1 == 0
+                tmpl = tmpls[1]
+            end                
             s1 = abs( og.n1 )
             s2 = abs( og.n2 )
-            level1 = render( tmpls[2], Dict(["yrs"=>s1, "pl"=>pl, "pn"=>ml ] ))
-            pl = abs( og.n2 ) > 1 ? "s" : ""
-            level2 = render( tmpls[2], Dict(["yrs"=>s2, "pl"=>pl, "pn"=>ml ] ))
+            level1 = render( tmpl, Dict(["yrs"=>s1, "pl"=>pl, "pn"=>ml ] ))
+            pl = ""
+            tmpl = tmpls[2]
+            if abs( og.n2 ) > 1 
+                pl = "s"
+            elseif og.n2 == -1
+                # HORRIBLE
+                ml = "less"
+            elseif og.n2 == 0
+                tmpl = tmpls[1]
+            end 
+            level2 = render( tmpl, Dict(["yrs"=>s2, "pl"=>pl, "pn"=>ml ] ))
         else
             if og.n1 == 0
                 level1 = render( tmpls[1])
@@ -136,26 +181,12 @@ function find_range( feature :: AbstractString, val :: Number )
             end
         end
     end
-    # println("level1='$level1' level2='$level2' feature='$feature'")
-    # println( MPROBS[(MPROBS.feature .== "Poverty"),:level][1])
-    v1 = MPROBS[(MPROBS.level .== level1).&(MPROBS.feature .== feature ), :estimate][1] * og.d1
-    v2 = MPROBS[(MPROBS.level .== level2).&(MPROBS.feature .== feature ), :estimate][1] * og.d2
+    println("BY=$by level1='$level1' level2='$level2' feature='$feature' ")
+    v1 = MPROBS[(MPROBS.BY .== by).&(MPROBS.level .== level1).&(MPROBS.feature .== feature ), :estimate][1] * og.d1
+    v2 = MPROBS[(MPROBS.BY .== by).&(MPROBS.level .== level2).&(MPROBS.feature .== feature ), :estimate][1] * og.d2
     return v1+v2
 end
 
-"""
- TODO
-"""
-function infer_mental_health()
-    
-end 
-
-"""
- TODO
-"""
-function infer_life_expectancy() 
-    
-end
 
 @with_kw mutable struct Factors{T <: AbstractFloat }
     level = "Child - £0; Adult - £63; Pensioner - £190"
@@ -170,25 +201,28 @@ end
     inequality = zero(T)
 end
 
-function calc_conjoint_total( factors :: Factors{T} ) :: NamedTuple where T <: AbstractFloat
+function calc_conjoint_total( by :: AbstractString, factors :: Factors{T} ) :: NamedTuple where T <: AbstractFloat
     # ±
     # TODO error bars 
-    lev = MPROBS[MPROBS.level .== factors.level,:estimate][1]
-    tx = MPROBS[MPROBS.level .== factors.tax,:estimate][1]
-    fun = MPROBS[MPROBS.level .== factors.funding, :estimate][1]
-    lxp = find_range( "Life.expectancy", factors.life_expectancy )
-    mh = find_range( "Mental.health", factors.mental_health )
-    elig = MPROBS[MPROBS.level .== factors.eligibility, :estimate][1]
-    mt = MPROBS[MPROBS.level .== factors.means_testing, :estimate][1]
-    cit = MPROBS[MPROBS.level .== factors.citizenship, :estimate][1]
+    lev = MPROBS[(MPROBS.BY .== by).&(MPROBS.level .== factors.level),:estimate][1]
+    tx = MPROBS[(MPROBS.BY .== by).&(MPROBS.level .== factors.tax),:estimate][1]
+    fun = MPROBS[(MPROBS.BY .== by).&(MPROBS.level .== factors.funding), :estimate][1]
+    lxp = find_range( by, "Life.expectancy", factors.life_expectancy )
+    mh = find_range( by, "Mental.health", factors.mental_health )
+    elig = MPROBS[(MPROBS.BY .== by).&(MPROBS.level .== factors.eligibility), :estimate][1]
+    mt = MPROBS[(MPROBS.BY .== by).&(MPROBS.level .== factors.means_testing), :estimate][1]
+    cit = MPROBS[(MPROBS.BY .== by).&(MPROBS.level .== factors.citizenship), :estimate][1]
     println( "factors.inequality = $(factors.inequality)")
-    ineq = find_range( "Inequality", factors.inequality )
-    pov = find_range( "Poverty", factors.poverty )
+    ineq = find_range( by, "Inequality", factors.inequality )
+    pov = find_range( by, "Poverty", factors.poverty )
     avg = (lev+tx+fun+lxp+mh+elig+mt+cit+pov+ineq)/10.0
     components = (; lev, tx, fun, lxp, mh, elig, mt, cit, pov, ineq )
     return (; avg, components )
 end
 
+"""
+FIXME this shouldn't be here.
+"""
 function load_system(; scotland = false )::TaxBenefitSystem
     sys = load_file( joinpath( Definitions.MODEL_PARAMS_DIR, "sys_2022-23.jl"))
     if ! scotland 
@@ -330,7 +364,7 @@ end
 
 const DEFAULT_SETTINGS = make_default_settings()
 
-function doonerun!( facs :: Factors, obs :: Observable; settings = DEFAULT_SETTINGS ) 
+function doonerun!( facs :: Factors, obs :: Observable; settings = DEFAULT_SETTINGS ) :: NamedTuple
     sys1 = load_system( scotland=false ) 
     sys2 = deepcopy(sys1)
     map_features!( sys2, facs )
@@ -351,13 +385,21 @@ function doonerun!( facs :: Factors, obs :: Observable; settings = DEFAULT_SETTI
     sf_pre = summarise_sf12( outps_pre, settings )
     sf_post = summarise_sf12( outps_post, settings )
 
-    facs.mental_health = 100.0*(sf_post.depressed-sf_pre.depressed)/sf_pre.depressed
+    facs.mental_health = (sf_post.depressed-sf_pre.depressed)/sf_pre.depressed
     facs.poverty = summary.poverty[2].headcount - summary.poverty[1].headcount
     facs.inequality = summary.inequality[2].gini - summary.inequality[1].gini
-
-    popularity = calc_conjoint_total( facs )
-    default_popularity = calc_conjoint_total( Factors{Float64}() )
-    return( ; popularity, default_popularity, summary, facs, sys1, sys2, settings, sf_pre, sf_post )
+    mainres = (;facs, sys1, sys2, settings, sf_pre, sf_post)
+    preferences = Dict()
+    for breakdown in keys(Conjoint.BREAKDOWNS)
+        bvals = Conjoint.BREAKDOWNS[breakdown]
+        for bv in bvals
+            popularity = calc_conjoint_total( bv, facs )
+            default_popularity = calc_conjoint_total( bv, Factors{Float64}() )
+            val = ( ; popularity, default_popularity, summary )
+            preferences[bv] = val
+        end
+    end
+    return (;mainres,preferences)
 end
 
 function renderrow( id, level, checked, disabled, feature )

@@ -207,9 +207,9 @@ version = "1.5.0"
 
 [[deps.DataStructures]]
 deps = ["Compat", "InteractiveUtils", "OrderedCollections"]
-git-tree-sha1 = "d1fff3a548102f48987a52a2e0d114fa97d730f0"
+git-tree-sha1 = "cf25ccb972fec4e4817764d01c82386ae94f77b4"
 uuid = "864edb3b-99cc-5e75-8d2d-829cb0a9cfe8"
-version = "0.18.13"
+version = "0.18.14"
 
 [[deps.DataValueInterfaces]]
 git-tree-sha1 = "bfc1187b79289637fa0ef6d4436ebdfe6905cbd6"
@@ -934,7 +934,7 @@ version = "0.2.12"
 
 [[deps.ScottishTaxBenefitModel]]
 deps = ["ArgCheck", "BenchmarkTools", "BudgetConstraints", "CSV", "Colors", "DataFrames", "Dates", "Distributions", "Formatting", "FromFile", "GLM", "HttpCommon", "Infiltrator", "IterableTables", "IteratorInterfaceExtensions", "JLD2", "JSON3", "Logging", "LoggingExtras", "MarkdownTables", "Observables", "Parameters", "PovertyAndInequalityMeasures", "PrettyTables", "Printf", "Random", "Reexport", "RegressionTables", "Roots", "StatFiles", "StaticArrays", "Statistics", "StatsBase", "StatsModels", "StructTypes", "SurveyDataWeighting", "TableTraits", "Tables", "TimeSeries", "UUIDs"]
-git-tree-sha1 = "ee64f75c09f59187174027477809cc07ae678238"
+git-tree-sha1 = "53a9615eecaea7a03e00743d40544a9d2ae47587"
 repo-rev = "master"
 repo-url = "https://github.com/grahamstark/ScottishTaxBenefitModel.jl/"
 uuid = "a734f2ee-4b7f-478f-84ca-797081d39f6e"
@@ -1149,9 +1149,9 @@ uuid = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
 
 [[deps.ThreadingUtilities]]
 deps = ["ManualMemory"]
-git-tree-sha1 = "c97f60dd4f2331e1a495527f80d242501d2f9865"
+git-tree-sha1 = "eda08f7e9818eb53661b3deb74e3159460dfbc27"
 uuid = "8290d209-cae3-49c0-8002-c8c24d57dab5"
-version = "0.5.1"
+version = "0.5.2"
 
 [[deps.TimeSeries]]
 deps = ["Dates", "DelimitedFiles", "DocStringExtensions", "RecipesBase", "Reexport", "Statistics", "Tables"]

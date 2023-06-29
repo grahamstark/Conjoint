@@ -1,74 +1,71 @@
-outcome,statistic,feature,level,estimate,std.error,z,p,lower,upper
-chosen,mm,Level,Child - £0; Adult - £63; Pensioner - £190,0.459784946,0.010336169,44.4831083,0,0.439526426,0.480043466
-chosen,mm,Level,Child - £41; Adult - £63; Pensioner - £190,0.478691347,0.010364803,46.18431875,0,0.458376708,0.499005987
-chosen,mm,Level,Child - £0; Adult - £145; Pensioner - £190,0.467741935,0.010279856,45.50082666,0,0.447593788,0.487890083
-chosen,mm,Level,Child - £41; Adult - £145; Pensioner - £190,0.48194325,0.010360773,46.516149,0,0.461636509,0.502249992
-chosen,mm,Level,Child - £63; Adult - £145; Pensioner - £190,0.510293473,0.010462498,48.77357971,0,0.489787354,0.530799593
-chosen,mm,Level,Child - £63; Adult - £190; Pensioner - £190,0.528985507,0.010305888,51.32847609,0,0.508786339,0.549184676
-chosen,mm,Level,Child - £95; Adult - £190; Pensioner - £230,0.517182131,0.010356961,49.93570558,0,0.496882861,0.5374814
-chosen,mm,Level,Child - £41; Adult - £230; Pensioner - £230,0.522522523,0.010345898,50.50528354,0,0.502244935,0.54280011
-chosen,mm,Level,Child - £95; Adult - £230; Pensioner - £230,0.533595113,0.010420548,51.20605254,0,0.513171215,0.554019012
-chosen,mm,Tax,Basic rate - 20%; Higher rate - 40%; Additional rate - 45%,0.569143619,0.009039712,62.96037171,0,0.551426109,0.586861128
-chosen,mm,Tax,Basic rate - 23%; Higher rate - 43%; Additional rate - 48%,0.579229481,0.009036208,64.10094905,0,0.561518839,0.596940122
-chosen,mm,Tax,Basic rate - 30%; Higher rate - 50%; Additional rate - 60%,0.531281365,0.009127794,58.20479364,0,0.513391218,0.549171512
-chosen,mm,Tax,Basic rate - 40%; Higher rate - 60%; Additional rate - 70%,0.498174577,0.009109152,54.68945951,0,0.480320968,0.516028186
-chosen,mm,Tax,Basic rate - 48%; Higher rate - 68%; Additional rate - 78%,0.470865611,0.009160871,51.39965534,0,0.452910634,0.488820589
-chosen,mm,Tax,Basic rate - 50%; Higher rate - 70%; Additional rate - 80%,0.453203623,0.009117776,49.70550325,0,0.435333111,0.471074135
-chosen,mm,Tax,Basic rate - 65%; Higher rate - 85%; Additional rate - 95%,0.397039031,0.008975263,44.2370358,0,0.379447839,0.414630223
-chosen,mm,Funding,Removal of income tax-free personal allowance,0.463218005,0.009139294,50.68422122,0,0.445305317,0.481130692
-chosen,mm,Funding,Increased government borrowing,0.46812749,0.009092195,51.48674056,0,0.450307115,0.485947865
-chosen,mm,Funding,Corporation tax increase,0.525117214,0.009138751,57.46050392,0,0.507205592,0.543028836
-chosen,mm,Funding,Tax for businesses based on carbon emissions,0.511260504,0.009164879,55.78475162,0,0.493297671,0.529223337
-chosen,mm,Funding,Tax for individuals based on carbon emissions,0.490400808,0.009174771,53.45101261,0,0.472418587,0.508383029
-chosen,mm,Funding,Tax on wealth,0.552984574,0.009104882,60.7349513,0,0.535139333,0.570829815
-chosen,mm,Funding,VAT increase,0.489199069,0.009113138,53.68063938,0,0.471337647,0.507060492
-chosen,mm,Life.expectancy,0 more or less years on average,0.510210914,0.009146863,55.77987628,0,0.492283391,0.528138437
-chosen,mm,Life.expectancy,5 fewer years on average,0.462207358,0.009118022,50.69162441,0,0.444336363,0.480078353
-chosen,mm,Life.expectancy,3 fewer years on average,0.481543624,0.009153268,52.60892839,0,0.463603548,0.4994837
-chosen,mm,Life.expectancy,1 less year on average,0.507104195,0.00919569,55.14585446,0,0.489080973,0.525127417
-chosen,mm,Life.expectancy,1 more year on average,0.488674217,0.009123545,53.56188169,0,0.470792398,0.506556036
-chosen,mm,Life.expectancy,3 more years on average,0.519288829,0.009151157,56.74570368,0,0.501352892,0.537224767
-chosen,mm,Life.expectancy,5 more years on average,0.530856005,0.009090342,58.39780526,0,0.513039263,0.548672748
-chosen,mm,Mental.health,Same number of cases,0.514298094,0.010403629,49.4344914,0,0.493907356,0.534688831
-chosen,mm,Mental.health,50% fewer cases,0.557320739,0.010292546,54.14799408,0,0.537147718,0.577493759
-chosen,mm,Mental.health,25% fewer cases,0.513617021,0.010310633,49.8143039,0,0.493408551,0.533825491
-chosen,mm,Mental.health,10% fewer cases,0.519808446,0.010424586,49.86370214,0,0.499376633,0.540240259
-chosen,mm,Mental.health,5% fewer cases,0.516945517,0.010350461,49.94420216,0,0.496658986,0.537232048
-chosen,mm,Mental.health,5% more cases,0.504520017,0.010373804,48.63404181,0,0.484187735,0.524852299
-chosen,mm,Mental.health,10% more cases,0.496130696,0.010367225,47.85568848,0,0.475811309,0.516450084
-chosen,mm,Mental.health,25% more cases,0.467672414,0.010359213,45.14555513,0,0.44736873,0.487976098
-chosen,mm,Mental.health,50% more cases,0.409716251,0.01019712,40.17960397,0,0.389730263,0.429702239
-chosen,mm,Eligibility,People in and out of work are entitled,0.520084567,0.006926324,75.08810649,0,0.506509221,0.533659913
-chosen,mm,Eligibility,Everyone is entitled but people of working age who are not disabled are required to look for work,0.528396009,0.006914753,76.41574422,0,0.514843342,0.541948676
-chosen,mm,Eligibility,Only people in work are entitled,0.476172322,0.006895608,69.0544405,0,0.462657179,0.489687464
-chosen,mm,Eligibility,Only people out of work are entitled,0.475709659,0.006893329,69.01014782,0,0.462198982,0.489220336
-chosen,mm,Means.testing,People with any or no amount of income are entitled to the full benefit,0.50536193,0.006918899,73.04080326,0,0.491801138,0.518922723
-chosen,mm,Means.testing,Only those with incomes less than £20k are entitled to the full benefit,0.509645062,0.006943318,73.40079181,0,0.496036408,0.523253716
-chosen,mm,Means.testing,Only those with incomes less than £50k are entitled to the full benefit,0.505327245,0.006896489,73.27311497,0,0.491810375,0.518844115
-chosen,mm,Means.testing,Only those with incomes less than £125k are entitled to the full benefit,0.479801829,0.006896501,69.57177239,0,0.466284935,0.493318724
-chosen,mm,Citizenship,"Citizens, permanent residents and anyone residing in the UK for more than six months are entitled",0.491822095,0.005988332,82.1300585,0,0.480085179,0.503559011
-chosen,mm,Citizenship,Only citizens and permanent residents are entitled,0.513055954,0.005987091,85.69368919,0,0.50132147,0.524790438
-chosen,mm,Citizenship,Only citizens are entitled,0.495121951,0.005988849,82.6739809,0,0.483384024,0.506859879
-chosen,mm,Poverty,Unchanged,0.472049689,0.011357878,41.56143262,0,0.449788657,0.494310722
-chosen,mm,Poverty,Decreased by 100%,0.633709016,0.010905072,58.11140161,0,0.612335468,0.655082565
-chosen,mm,Poverty,Decreased by 75%,0.610178384,0.01117147,54.61934824,0,0.588282706,0.632074062
-chosen,mm,Poverty,Decreased by 50%,0.609201481,0.011220741,54.29244495,0,0.587209232,0.63119373
-chosen,mm,Poverty,Decreased by 25%,0.560063224,0.011393993,49.15425447,0,0.537731409,0.58239504
-chosen,mm,Poverty,Decreased by 10%,0.528150134,0.011559834,45.68838556,0,0.505493277,0.550806992
-chosen,mm,Poverty,Decreased by 5%,0.495726496,0.011556108,42.8973563,0,0.47307694,0.518376052
-chosen,mm,Poverty,Increased by 5%,0.440687064,0.011502614,38.31190626,0,0.418142355,0.463231773
-chosen,mm,Poverty,Increased by 10%,0.428571429,0.011468672,37.36888029,1.25E-305,0.406093245,0.451049613
-chosen,mm,Poverty,Increased by 25%,0.369690614,0.011054297,33.44315842,3.24E-245,0.348024589,0.391356638
-chosen,mm,Poverty,Increased by 50%,0.352191641,0.010783846,32.65918665,5.93E-234,0.331055691,0.373327591
-chosen,mm,Inequality,Unchanged.,0.497783688,0.010527047,47.28616418,0,0.477151054,0.518416322
-chosen,mm,Inequality,Decreased by 50%.,0.541971588,0.010337613,52.42715257,0,0.52171024,0.562232937
-chosen,mm,Inequality,Decreased by 25%.,0.55565032,0.010261295,54.15011544,0,0.535538551,0.575762089
-chosen,mm,Inequality,Decreased by 10%.,0.512216031,0.01034888,49.49482647,0,0.491932598,0.532499463
-chosen,mm,Inequality,Decreased by 5%.,0.519123335,0.010357724,50.11944237,0,0.498822569,0.5394241
-chosen,mm,Inequality,Increased by 5%.,0.496964441,0.010412206,47.72902696,0,0.476556893,0.517371989
-chosen,mm,Inequality,Increased by 10%.,0.485004284,0.010345097,46.88252786,0,0.464728268,0.505280301
-chosen,mm,Inequality,Increased by 25%.,0.481402309,0.01033153,46.5954511,0,0.461152882,0.501651736
-chosen,mm,Inequality,Increased by 50%.,0.410311035,0.010153644,40.41022404,0,0.390410258,0.430211812
-,,,,,,,,,
-,,,,,,,,,
-,,,Default scheme,0.520794616,,,,,
+BY,outcome,statistic,feature,level,estimate,std.error,z,p,lower,upper,breakdown
+Total,chosen,mm,Level,Child - £0; Adult - £63; Pensioner - £190,0.459784946,0.010336169,44.4831083,0,0.439526426,0.480043466,total
+Total,chosen,mm,Level,Child - £41; Adult - £63; Pensioner - £190,0.478691347,0.010364803,46.18431875,0,0.458376708,0.499005987,total
+Total,chosen,mm,Level,Child - £0; Adult - £145; Pensioner - £190,0.467741935,0.010279856,45.50082666,0,0.447593788,0.487890083,total
+Total,chosen,mm,Level,Child - £41; Adult - £145; Pensioner - £190,0.48194325,0.010360773,46.516149,0,0.461636509,0.502249992,total
+Total,chosen,mm,Level,Child - £63; Adult - £145; Pensioner - £190,0.510293473,0.010462498,48.77357971,0,0.489787354,0.530799593,total
+Total,chosen,mm,Level,Child - £63; Adult - £190; Pensioner - £190,0.528985507,0.010305888,51.32847609,0,0.508786339,0.549184676,total
+Total,chosen,mm,Level,Child - £95; Adult - £190; Pensioner - £230,0.517182131,0.010356961,49.93570558,0,0.496882861,0.5374814,total
+Total,chosen,mm,Level,Child - £41; Adult - £230; Pensioner - £230,0.522522523,0.010345898,50.50528354,0,0.502244935,0.54280011,total
+Total,chosen,mm,Level,Child - £95; Adult - £230; Pensioner - £230,0.533595113,0.010420548,51.20605254,0,0.513171215,0.554019012,total
+Total,chosen,mm,Tax,Basic rate - 20%; Higher rate - 40%; Additional rate - 45%,0.569143619,0.009039712,62.96037171,0,0.551426109,0.586861128,total
+Total,chosen,mm,Tax,Basic rate - 23%; Higher rate - 43%; Additional rate - 48%,0.579229481,0.009036208,64.10094905,0,0.561518839,0.596940122,total
+Total,chosen,mm,Tax,Basic rate - 30%; Higher rate - 50%; Additional rate - 60%,0.531281365,0.009127794,58.20479364,0,0.513391218,0.549171512,total
+Total,chosen,mm,Tax,Basic rate - 40%; Higher rate - 60%; Additional rate - 70%,0.498174577,0.009109152,54.68945951,0,0.480320968,0.516028186,total
+Total,chosen,mm,Tax,Basic rate - 48%; Higher rate - 68%; Additional rate - 78%,0.470865611,0.009160871,51.39965534,0,0.452910634,0.488820589,total
+Total,chosen,mm,Tax,Basic rate - 50%; Higher rate - 70%; Additional rate - 80%,0.453203623,0.009117776,49.70550325,0,0.435333111,0.471074135,total
+Total,chosen,mm,Tax,Basic rate - 65%; Higher rate - 85%; Additional rate - 95%,0.397039031,0.008975263,44.2370358,0,0.379447839,0.414630223,total
+Total,chosen,mm,Funding,Removal of income tax-free personal allowance,0.463218005,0.009139294,50.68422122,0,0.445305317,0.481130692,total
+Total,chosen,mm,Funding,Increased government borrowing,0.46812749,0.009092195,51.48674056,0,0.450307115,0.485947865,total
+Total,chosen,mm,Funding,Corporation tax increase,0.525117214,0.009138751,57.46050392,0,0.507205592,0.543028836,total
+Total,chosen,mm,Funding,Tax for businesses based on carbon emissions,0.511260504,0.009164879,55.78475162,0,0.493297671,0.529223337,total
+Total,chosen,mm,Funding,Tax for individuals based on carbon emissions,0.490400808,0.009174771,53.45101261,0,0.472418587,0.508383029,total
+Total,chosen,mm,Funding,Tax on wealth,0.552984574,0.009104882,60.7349513,0,0.535139333,0.570829815,total
+Total,chosen,mm,Funding,VAT increase,0.489199069,0.009113138,53.68063938,0,0.471337647,0.507060492,total
+Total,chosen,mm,Life.expectancy,0 more or less years on average,0.510210914,0.009146863,55.77987628,0,0.492283391,0.528138437,total
+Total,chosen,mm,Life.expectancy,5 fewer years on average,0.462207358,0.009118022,50.69162441,0,0.444336363,0.480078353,total
+Total,chosen,mm,Life.expectancy,3 fewer years on average,0.481543624,0.009153268,52.60892839,0,0.463603548,0.4994837,total
+Total,chosen,mm,Life.expectancy,1 less year on average,0.507104195,0.00919569,55.14585446,0,0.489080973,0.525127417,total
+Total,chosen,mm,Life.expectancy,1 more year on average,0.488674217,0.009123545,53.56188169,0,0.470792398,0.506556036,total
+Total,chosen,mm,Life.expectancy,3 more years on average,0.519288829,0.009151157,56.74570368,0,0.501352892,0.537224767,total
+Total,chosen,mm,Life.expectancy,5 more years on average,0.530856005,0.009090342,58.39780526,0,0.513039263,0.548672748,total
+Total,chosen,mm,Mental.health,Same number of cases,0.514298094,0.010403629,49.4344914,0,0.493907356,0.534688831,total
+Total,chosen,mm,Mental.health,50% fewer cases,0.557320739,0.010292546,54.14799408,0,0.537147718,0.577493759,total
+Total,chosen,mm,Mental.health,25% fewer cases,0.513617021,0.010310633,49.8143039,0,0.493408551,0.533825491,total
+Total,chosen,mm,Mental.health,10% fewer cases,0.519808446,0.010424586,49.86370214,0,0.499376633,0.540240259,total
+Total,chosen,mm,Mental.health,5% fewer cases,0.516945517,0.010350461,49.94420216,0,0.496658986,0.537232048,total
+Total,chosen,mm,Mental.health,5% more cases,0.504520017,0.010373804,48.63404181,0,0.484187735,0.524852299,total
+Total,chosen,mm,Mental.health,10% more cases,0.496130696,0.010367225,47.85568848,0,0.475811309,0.516450084,total
+Total,chosen,mm,Mental.health,25% more cases,0.467672414,0.010359213,45.14555513,0,0.44736873,0.487976098,total
+Total,chosen,mm,Mental.health,50% more cases,0.409716251,0.01019712,40.17960397,0,0.389730263,0.429702239,total
+Total,chosen,mm,Eligibility,People in and out of work are entitled,0.520084567,0.006926324,75.08810649,0,0.506509221,0.533659913,total
+Total,chosen,mm,Eligibility,Everyone is entitled but people of working age who are not disabled are required to look for work,0.528396009,0.006914753,76.41574422,0,0.514843342,0.541948676,total
+Total,chosen,mm,Eligibility,Only people in work are entitled,0.476172322,0.006895608,69.0544405,0,0.462657179,0.489687464,total
+Total,chosen,mm,Eligibility,Only people out of work are entitled,0.475709659,0.006893329,69.01014782,0,0.462198982,0.489220336,total
+Total,chosen,mm,Means.testing,People with any or no amount of income are entitled to the full benefit,0.50536193,0.006918899,73.04080326,0,0.491801138,0.518922723,total
+Total,chosen,mm,Means.testing,Only those with incomes less than £20k are entitled to the full benefit,0.509645062,0.006943318,73.40079181,0,0.496036408,0.523253716,total
+Total,chosen,mm,Means.testing,Only those with incomes less than £50k are entitled to the full benefit,0.505327245,0.006896489,73.27311497,0,0.491810375,0.518844115,total
+Total,chosen,mm,Means.testing,Only those with incomes less than £125k are entitled to the full benefit,0.479801829,0.006896501,69.57177239,0,0.466284935,0.493318724,total
+Total,chosen,mm,Citizenship,"Citizens, permanent residents and anyone residing in the UK for more than six months are entitled",0.491822095,0.005988332,82.1300585,0,0.480085179,0.503559011,total
+Total,chosen,mm,Citizenship,Only citizens and permanent residents are entitled,0.513055954,0.005987091,85.69368919,0,0.50132147,0.524790438,total
+Total,chosen,mm,Citizenship,Only citizens are entitled,0.495121951,0.005988849,82.6739809,0,0.483384024,0.506859879,total
+Total,chosen,mm,Poverty,Unchanged.,0.472049689,0.011357878,41.56143262,0,0.449788657,0.494310722,total
+Total,chosen,mm,Poverty,Decreased by 100%.,0.633709016,0.010905072,58.11140161,0,0.612335468,0.655082565,total
+Total,chosen,mm,Poverty,Decreased by 75%.,0.610178384,0.01117147,54.61934824,0,0.588282706,0.632074062,total
+Total,chosen,mm,Poverty,Decreased by 50%.,0.609201481,0.011220741,54.29244495,0,0.587209232,0.63119373,total
+Total,chosen,mm,Poverty,Decreased by 25%.,0.560063224,0.011393993,49.15425447,0,0.537731409,0.58239504,total
+Total,chosen,mm,Poverty,Decreased by 10%.,0.528150134,0.011559834,45.68838556,0,0.505493277,0.550806992,total
+Total,chosen,mm,Poverty,Decreased by 5%.,0.495726496,0.011556108,42.8973563,0,0.47307694,0.518376052,total
+Total,chosen,mm,Poverty,Increased by 5%.,0.440687064,0.011502614,38.31190626,0,0.418142355,0.463231773,total
+Total,chosen,mm,Poverty,Increased by 10%.,0.428571429,0.011468672,37.36888029,1.25E-305,0.406093245,0.451049613,total
+Total,chosen,mm,Poverty,Increased by 25%.,0.369690614,0.011054297,33.44315842,3.24E-245,0.348024589,0.391356638,total
+Total,chosen,mm,Poverty,Increased by 50%.,0.352191641,0.010783846,32.65918665,5.93E-234,0.331055691,0.373327591,total
+Total,chosen,mm,Inequality,Unchanged.,0.497783688,0.010527047,47.28616418,0,0.477151054,0.518416322,total
+Total,chosen,mm,Inequality,Decreased by 50%.,0.541971588,0.010337613,52.42715257,0,0.52171024,0.562232937,total
+Total,chosen,mm,Inequality,Decreased by 25%.,0.55565032,0.010261295,54.15011544,0,0.535538551,0.575762089,total
+Total,chosen,mm,Inequality,Decreased by 10%.,0.512216031,0.01034888,49.49482647,0,0.491932598,0.532499463,total
+Total,chosen,mm,Inequality,Decreased by 5%.,0.519123335,0.010357724,50.11944237,0,0.498822569,0.5394241,total
+Total,chosen,mm,Inequality,Increased by 5%.,0.496964441,0.010412206,47.72902696,0,0.476556893,0.517371989,total
+Total,chosen,mm,Inequality,Increased by 10%.,0.485004284,0.010345097,46.88252786,0,0.464728268,0.505280301,total
+Total,chosen,mm,Inequality,Increased by 25%.,0.481402309,0.01033153,46.5954511,0,0.461152882,0.501651736,total
+Total,chosen,mm,Inequality,Increased by 50%.,0.410311035,0.010153644,40.41022404,0,0.390410258,0.430211812,total
