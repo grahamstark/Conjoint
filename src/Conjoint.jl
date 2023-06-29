@@ -349,9 +349,9 @@ function doonerun!( facs :: Factors, obs :: Observable; settings = DEFAULT_SETTI
         summary.deciles[2], 
         settings )
     sf_pre = summarise_sf12( outps_pre, settings )
-    sf_post =    summarise_sf12( outps_post, settings )
+    sf_post = summarise_sf12( outps_post, settings )
 
-    factors.mental_health = 100.0*(sf_post.depression-sf_pre.depression)/sf_pre.depression
+    factors.mental_health = 100.0*(sf_post.depressed-sf_pre.depressed)/sf_pre.depressed
 
     facs.poverty = summary.poverty[2].headcount - summary.poverty[1].headcount
     facs.inequality = summary.inequality[2].gini - summary.inequality[1].gini
