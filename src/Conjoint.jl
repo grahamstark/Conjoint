@@ -189,6 +189,7 @@ end
 function calc_conjoint_total( by :: AbstractString, factors :: Factors{T} ) :: NamedTuple where T <: AbstractFloat
     # ±
     # TODO error bars 
+    
     lev = MPROBS[(MPROBS.BY .== by).&(MPROBS.level .== factors.level),:estimate][1]
     tx = MPROBS[(MPROBS.BY .== by).&(MPROBS.level .== factors.tax),:estimate][1]
     fun = MPROBS[(MPROBS.BY .== by).&(MPROBS.level .== factors.funding), :estimate][1]
