@@ -176,7 +176,7 @@ end
 @with_kw mutable struct Factors{T <: AbstractFloat }
     level = "Child - £0; Adult - £63; Pensioner - £190"
     tax = "Basic rate - 20%; Higher rate - 40%; Additional rate - 45%"
-    funding= "Removal of income tax-free personal allowance"
+    funding= "Increased government borrowing" # "Removal of income tax-free personal allowance"
     life_expectancy = zero(T)
     mental_health = zero(T)
     eligibility  = "People in and out of work are entitled"
