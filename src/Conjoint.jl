@@ -186,14 +186,6 @@ end
     inequality = zero(T)
 end
 
-"""
-see Dan's email of 5 Jul. Kinda sorta normalise round 50 & use the whole range 0..100.
-if the range is 40-60 then this works
-"""
-function dannify( v :: Number ) :: Number
-    100*(v - 0.5) + 50
-end
-
 function calc_conjoint_total( by :: AbstractString, factors :: Factors{T} ) :: NamedTuple where T <: AbstractFloat
     # ±
     # TODO error bars 
@@ -210,8 +202,8 @@ function calc_conjoint_total( by :: AbstractString, factors :: Factors{T} ) :: N
     ineq = find_range( by, "Inequality", factors.inequality )
     pov = find_range( by, "Poverty", factors.poverty )
     
-    lev,tx,fun,lxp,mh,elig,mt,cit,pov,ineq = 
-        dannify.(( lev,tx,fun,lxp,mh,elig,mt,cit,pov,ineq ))
+    # lev,tx,fun,lxp,mh,elig,mt,cit,pov,ineq = 
+    #     dannify.(( lev,tx,fun,lxp,mh,elig,mt,cit,pov,ineq ))
 
     avg = sum( [lev,tx,fun,lxp,mh,elig,mt,cit,pov,ineq] )/10
     components = (; lev, tx, fun, lxp, mh, elig, mt, cit, pov, ineq )
