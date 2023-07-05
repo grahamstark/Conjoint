@@ -201,7 +201,8 @@ function calc_conjoint_total( by :: AbstractString, factors :: Factors{T} ) :: N
     println( "factors.inequality = $(factors.inequality)")
     ineq = find_range( by, "Inequality", factors.inequality )
     pov = find_range( by, "Poverty", factors.poverty )
-    avg = (lev+tx+fun+lxp+mh+elig+mt+cit+pov+ineq)/10.0
+    # see Dan's email of 5 Jul
+    avg = 100*(((lev+tx+fun+lxp+mh+elig+mt+cit+pov+ineq) .- 0.5)) + 50
     components = (; lev, tx, fun, lxp, mh, elig, mt, cit, pov, ineq )
     return (; avg, components )
 end
