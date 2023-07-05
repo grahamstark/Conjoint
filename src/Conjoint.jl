@@ -191,7 +191,7 @@ see Dan's email of 5 Jul. Kinda sorta normalise round 50 & use the whole range 0
 if the range is 40-60 then this works
 """
 function dannify( v :: Number ) :: Number
-    100*((v - 40.0)/20.0) 
+    100*(v - 0.5) + 50
 end
 
 function calc_conjoint_total( by :: AbstractString, factors :: Factors{T} ) :: NamedTuple where T <: AbstractFloat
